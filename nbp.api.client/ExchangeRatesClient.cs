@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using nbp.api.client.models;
@@ -22,18 +23,28 @@ namespace nbp.api.client
         {
             var client = GetClient();
             var request = new RestRequest(GetEndpointUrl(query));
-            var response = await client.ExecuteGetAsync<List<ExchangeRatesSeries>>(request);
-            return response.Data?.First();
+            ExchangeRatesSeries results = null;
+            if (GetResponseFormat(query) == ResponseFormat.Array)
+            {
+                var response = await client.ExecuteGetAsync<List<ExchangeRatesSeries>>(request);
+                results = response.Data?.First();
+            }
+            else
+            {
+                var response = await client.ExecuteGetAsync<ExchangeRatesSeries>(request);
+                results = response.Data;
+            }
+
+            return results;
         }
         
-        public async Task<List<ExchangeRatesSeries>> FetchRatesSeriesList(ExchangeRatesSeriesLastQuery query)
+        public async Task<List<ExchangeRatesSeries>> FetchRatesSeriesList(ExchangeRatesSeriesQuery query)
         {
             var client = GetClient();
             var request = new RestRequest(GetEndpointUrl(query));
             var response = await client.ExecuteGetAsync<List<ExchangeRatesSeries>>(request);
             return response.Data;
         }
-
         private RestClient GetClient()
         {
             var client = new RestClient(_apiBaseUrl);
@@ -45,27 +56,57 @@ namespace nbp.api.client
             client.UseSystemTextJson(serializeOptions);
             return client;
         }
-        private static string GetEndpointUrl(ExchangeRatesSeriesQuery query)
+        public static string GetEndpointUrl(ExchangeRatesSeriesQuery query)
         {
-            string url = $"api/exchangerates/tables/{query.Table}/";
+            var sb = new StringBuilder("api/exchangerates/");
+            if (string.IsNullOrEmpty(query.Code))
+            {
+                sb.Append("tables/");
+                sb.Append(query.Table);
+                sb.Append('/');
+            }
+            else
+            {
+                sb.Append("rates/");
+                sb.Append(query.Table);
+                sb.Append('/');
+                sb.Append(query.Code);
+                sb.Append('/');
+            }
             if (query is ExchangeRatesSeriesLastQuery lastQuery)
             {
-                url += $"last/{lastQuery.Count}/";
+                sb.Append("last/");
+                sb.Append(lastQuery.Count);
+                sb.Append('/');
             }
             else if (query is ExchangeRatesSeriesTodayQuery todayQuery)
             {
-                url += "today/";
+                sb.Append("today/");
             }
             else if (query is ExchangeRatesSeriesDateQuery dateQuery)
             {
-                url += dateQuery.Date.ToString("yyyy-MM-dd");
+                sb.Append(dateQuery.Date.ToString("yyyy-MM-dd"));
+                sb.Append('/');
             }
             else if (query is ExchangeRatesSeriesDateRangeQuery dateRangeQuery)
             {
-                url += $"{dateRangeQuery.StartDate:yyyy-MM-dd}/{dateRangeQuery.EndDate:yyyy-MM-dd}";
+                sb.Append(dateRangeQuery.StartDate.ToString("yyyy-MM-dd"));
+                sb.Append('/');
+                sb.Append(dateRangeQuery.EndDate.ToString("yyyy-MM-dd"));
+                sb.Append('/');
             }
-
-            return url;
+            return sb.ToString().ToLower();
         }
+
+        public static ResponseFormat GetResponseFormat(ExchangeRatesSeriesQuery query)
+        {
+            return !string.IsNullOrWhiteSpace(query.Code) ? ResponseFormat.Single : ResponseFormat.Array;
+        }
+    }
+
+    public enum ResponseFormat
+    {
+        Array,
+        Single
     }
 }

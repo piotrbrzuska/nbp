@@ -6,6 +6,9 @@ namespace nbp.api.client.models
     {
         
         public string Table { get; set; }
+        
+        public string Currency { get; set; }
+        public string Code { get; set; }
         public string No { get; set; }
         public DateTime EffectiveDate { get; set; }
 
