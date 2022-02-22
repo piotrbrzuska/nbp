@@ -28,3 +28,9 @@ Aplikacja jest podzielona na następuje części:
   - frontend - aplikacja JS służąca jako frontend do api
 - nbp.tests - projekt testów do aplikacji, zarówno jednostkowych jak i integracyjnych
 
+
+## Jak wykonać migrację bazy
+baza danych musi być założona,
+ConnectionString należy wpisać w pliku appsettings.json w katalogu nbp (źródła)
+w katalogu głównym aplikacji nbp (web api) wykonać
+dotnet ef database update --project ..\nbp.core\nbp.core.csproj

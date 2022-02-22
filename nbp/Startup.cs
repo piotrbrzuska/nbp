@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using nbp.core;
 
 namespace nbp
 {
@@ -27,6 +29,7 @@ namespace nbp
         {
 
             services.AddControllers();
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));;
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "nbp", Version = "v1" });
