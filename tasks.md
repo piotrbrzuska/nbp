@@ -2,7 +2,7 @@
 
 1. **DONE** Retrieving data of complete tables
 2. **DONE** Retrieving data of currency rates
-3. Refactoring ExchangeRate models - dividing models by type
+3. **DONE** Refactoring ExchangeRate models and client classes - dividing models by type
 4. Fetching currency list
 5. Creating Database schema
 6. Creating CurrencyRateRepository

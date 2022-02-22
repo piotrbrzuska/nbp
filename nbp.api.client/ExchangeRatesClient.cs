@@ -1,61 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
-using nbp.api.client.models;
 using nbp.api.client.queries;
-using RestSharp;
-using RestSharp.Serializers.Json;
 
 namespace nbp.api.client
 {
-    public class ExchangeRatesClient
+    public abstract class ExchangeRatesClient<T> : ExchangeClient
     {
-        private readonly string _apiBaseUrl;
 
-        public ExchangeRatesClient(string apiBaseUrl)
+        protected ExchangeRatesClient(string apiBaseUrl) : base(apiBaseUrl)
         {
-            _apiBaseUrl = apiBaseUrl;
         }
+        public abstract Task<T> FetchRatesSeries(ExchangeRatesSeriesQuery query);
 
-        public async Task<ExchangeRatesSeries> FetchRatesSeries(ExchangeRatesSeriesQuery query)
-        {
-            var client = GetClient();
-            var request = new RestRequest(GetEndpointUrl(query));
-            ExchangeRatesSeries results = null;
-            if (GetResponseFormat(query) == ResponseFormat.Array)
-            {
-                var response = await client.ExecuteGetAsync<List<ExchangeRatesSeries>>(request);
-                results = response.Data?.First();
-            }
-            else
-            {
-                var response = await client.ExecuteGetAsync<ExchangeRatesSeries>(request);
-                results = response.Data;
-            }
-
-            return results;
-        }
+        public abstract Task<IEnumerable<T>> FetchRatesSeriesList(ExchangeRatesSeriesQuery query);
         
-        public async Task<List<ExchangeRatesSeries>> FetchRatesSeriesList(ExchangeRatesSeriesQuery query)
-        {
-            var client = GetClient();
-            var request = new RestRequest(GetEndpointUrl(query));
-            var response = await client.ExecuteGetAsync<List<ExchangeRatesSeries>>(request);
-            return response.Data;
-        }
-        private RestClient GetClient()
-        {
-            var client = new RestClient(_apiBaseUrl);
-            var serializeOptions = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true
-            };
-            client.UseSystemTextJson(serializeOptions);
-            return client;
-        }
         public static string GetEndpointUrl(ExchangeRatesSeriesQuery query)
         {
             var sb = new StringBuilder("api/exchangerates/");
@@ -98,15 +57,5 @@ namespace nbp.api.client
             return sb.ToString().ToLower();
         }
 
-        public static ResponseFormat GetResponseFormat(ExchangeRatesSeriesQuery query)
-        {
-            return !string.IsNullOrWhiteSpace(query.Code) ? ResponseFormat.Single : ResponseFormat.Array;
-        }
-    }
-
-    public enum ResponseFormat
-    {
-        Array,
-        Single
     }
 }
