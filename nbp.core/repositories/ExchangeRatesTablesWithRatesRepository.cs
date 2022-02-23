@@ -73,7 +73,7 @@ namespace nbp.core.repositories
             var dto = await _dbContext.ExchangeTables
                 .Include( x => x.Rates)
                 .ThenInclude( x => x.Currency)
-                .OrderBy( x=> x.EffectiveDate)
+                .OrderByDescending( x=> x.EffectiveDate)
                 .Take(1)
                 .ToArrayAsync(ct);
             return _mapper.Map<IEnumerable<ExchangeRateTable>>(dto);
@@ -83,7 +83,7 @@ namespace nbp.core.repositories
             var dto = await _dbContext.ExchangeTables
                 .Include( x => x.Rates.Where( r=> r.Currency.Code.ToLower() == currencyCode.ToLower()))
                 .ThenInclude( x => x.Currency)
-                .OrderBy( x=> x.EffectiveDate)
+                .OrderByDescending( x=> x.EffectiveDate)
                 .Take(1)
                 .ToArrayAsync(ct);
             return _mapper.Map<IEnumerable<ExchangeRateTable>>(dto);
