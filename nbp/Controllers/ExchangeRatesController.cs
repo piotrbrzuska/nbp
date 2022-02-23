@@ -53,7 +53,7 @@ namespace nbp.Controllers
         }
         
         [HttpGet]
-        [Route("date/{date}")]
+        [Route("date/{date:datetime}")]
         public async Task<IEnumerable<ExchangeRateTable>> GetDate(DateTime date, CancellationToken ct)
         {
             var requestCommand = new ExchangeRateTableRequestCommand(){Date = date};
@@ -62,7 +62,7 @@ namespace nbp.Controllers
             return exchangeRates;
         }       
         [HttpGet]
-        [Route("date/{startDate}/{endDate}")]
+        [Route("date/{startDate:datetime}/{endDate:datetime}")]
         public async Task<IEnumerable<ExchangeRateTable>> GetDateRange(DateTime startDate, DateTime endDate, CancellationToken ct)
         {
             var requestCommand = new ExchangeRateTableRequestCommand(){StartDate = startDate, EndDate = endDate};
@@ -82,7 +82,7 @@ namespace nbp.Controllers
             return exchangeRates;
         }
         [HttpGet]
-        [Route("date/{date}/{currency}")]
+        [Route("date/{date:datetime}/{currency}")]
         public async Task<IEnumerable<ExchangeRateTable>> GetDate(DateTime date, string currency, CancellationToken ct)
         {
             var requestCommand = new ExchangeRateTableRequestCommand(){Date = date, Currency = currency};
@@ -91,7 +91,7 @@ namespace nbp.Controllers
             return exchangeRates;
         }       
         [HttpGet]
-        [Route("date/{startDate}/{endDate}/{currency}")]
+        [Route("date/{startDate:datetime}/{endDate:datetime}/{currency}")]
         public async Task<IEnumerable<ExchangeRateTable>> GetDateRange(DateTime startDate, DateTime endDate, string currency, CancellationToken ct)
         {
             var requestCommand = new ExchangeRateTableRequestCommand(){StartDate = startDate, EndDate = endDate, Currency = currency};
