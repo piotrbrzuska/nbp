@@ -10,7 +10,5 @@
 8. **DONE** CurrencyImportCommandHandler, ApiToDatabaseCurrenciesBridge, CurrencyImport action from CLI
 9. **DONE** Creating ExchangeRatesTablesRepository
 10. **DONE** Creating ApiToDatabaseExchangeRatesTablesBridge
-11. Commands and CommandHandlers
-12. Cli
-13. WebApi
-14. Frontend
+11. **DONE** WebApi, ExchangeRatesController, ExchangeRateTableRequestCommand and Handler
+12. Frontend

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using nbp.core.commands;
 
-namespace nbp.core.currenciesCommandHandlers
+namespace nbp.core.commandHandlers
 {
     public class CurrencyImportCommandHandler : IRequestHandler<CurrencyImportCommand, int> 
     {

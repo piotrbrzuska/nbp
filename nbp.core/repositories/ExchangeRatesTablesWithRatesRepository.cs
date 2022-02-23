@@ -43,10 +43,31 @@ namespace nbp.core.repositories
             var dto = await _dbContext.ExchangeTables
                 .Include( x => x.Rates)
                 .ThenInclude( x => x.Currency)
-                .Where( x=> x.EffectiveDate >= startDate && x.EffectiveDate <= endDate)
+                .Where( x=> x.EffectiveDate >= startDate.Date && x.EffectiveDate <= endDate.Date)
                 .ToArrayAsync(ct);
             return _mapper.Map<IEnumerable<ExchangeRateTable>>(dto);
         }
+
+        public async Task<IEnumerable<ExchangeRateTable>> Get(string currencyCode, DateTime startDate, DateTime endDate, CancellationToken ct)
+        {
+            var dto = await _dbContext.ExchangeTables
+                .Include( x => x.Rates.Where( r=> r.Currency.Code.ToLower() == currencyCode.ToLower()))
+                .ThenInclude( x => x.Currency)
+                .Where( x=> x.EffectiveDate >= startDate.Date && x.EffectiveDate <= endDate.Date)
+                .ToArrayAsync(ct);
+            return _mapper.Map<IEnumerable<ExchangeRateTable>>(dto);
+        }
+
+        public async Task<IEnumerable<ExchangeRateTable>> Get(string currencyCode, DateTime date, CancellationToken ct)
+        {
+            var dto = await _dbContext.ExchangeTables
+                .Include( x => x.Rates.Where( r=> r.Currency.Code.ToLower() == currencyCode.ToLower()))
+                .ThenInclude( x => x.Currency)
+                .Where( x=> x.EffectiveDate == date.Date)
+                .ToArrayAsync(ct);
+            return _mapper.Map<IEnumerable<ExchangeRateTable>>(dto);
+        }
+
         public async Task<bool> Register(ExchangeRateTable model, CancellationToken ct)
         {
             var dto = _mapper.Map<ExchangeRateTableDto>(model);

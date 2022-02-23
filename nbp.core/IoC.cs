@@ -2,15 +2,16 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using nbp.api.client;
+using nbp.core.commandHandlers;
 using nbp.core.commands;
-using nbp.core.currenciesCommandHandlers;
+using nbp.core.models;
 using nbp.core.repositories;
 
 namespace nbp.core
 {
     public class IoC
     {
-        public static void ServiceRegistrer(ServiceCollection services)
+        public static void ServiceRegistrer(IServiceCollection services)
         {
             const string NBP_API_URL = "http://api.nbp.pl";
             services.AddAutoMapper(typeof(DatabaseContext));
@@ -26,6 +27,7 @@ namespace nbp.core
             services.AddScoped<ApiToDatabaseExchangeRatesTablesBridge>();
             services.AddScoped<IRequestHandler<CurrencyImportCommand, int>, CurrencyImportCommandHandler>();
             services.AddScoped<IRequestHandler<ExchangeRatesTablesImportCommand, int>, ExchangeRatesTablesImportCommandHandler>();
+            services.AddScoped<IRequestHandler<ExchangeRateTableRequestCommand, ExchangeRateTable[]>, ExchangeRateTableRequestCommandHandler>();
             
 
         }

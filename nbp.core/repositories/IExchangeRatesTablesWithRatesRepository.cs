@@ -9,5 +9,7 @@ namespace nbp.core.repositories
     public interface IExchangeRatesTablesWithRatesRepository : IReadRepository<ExchangeRateTable>, IRegisterRepository<ExchangeRateTable>, IClearRepository<ExchangeRateTable>
     {
         Task<IEnumerable<ExchangeRateTable>> Get(DateTime startDate, DateTime endDate, CancellationToken ct);
+        Task<IEnumerable<ExchangeRateTable>> Get(string currencyCode, DateTime startDate, DateTime endDate, CancellationToken ct);
+        Task<IEnumerable<ExchangeRateTable>> Get(string currencyCode, DateTime date, CancellationToken ct);
     }
 }
