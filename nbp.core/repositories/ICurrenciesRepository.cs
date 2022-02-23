@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using nbp.core.dto;
+using nbp.core.models;
 
 namespace nbp.core.repositories
 {

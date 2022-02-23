@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using nbp.api.client;
-using nbp.core.dto;
+using nbp.core.models;
 using nbp.core.repositories;
 
 namespace nbp.core

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace nbp.core.dto
+namespace nbp.core.models
 {
     public class CurrencyInfoEqualityComparerByCode : IEqualityComparer<CurrencyInfo>
     {

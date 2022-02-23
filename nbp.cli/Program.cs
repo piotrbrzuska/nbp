@@ -1,14 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using nbp.core;
-using nbp.core.commands;
+
 namespace nbp.cli
 {
     class Program
@@ -39,6 +37,7 @@ namespace nbp.cli
             services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(connectionString));;
             IoC.ServiceRegistrer(services);
             services.AddScoped<CurrenciesCli>();
+            services.AddScoped<ExchangeRateTableCli>();
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             
             switch (args[0].ToLower())
@@ -48,29 +47,12 @@ namespace nbp.cli
                     await currenciesCli?.DispatchAction(args.Skip(1).ToArray())!;
                     
                     break;
-            }
-        }
-    }
-
-    public class CurrenciesCli
-    {
-        private readonly IMediator  _mediator;
-
-        public CurrenciesCli(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
-        public async Task DispatchAction(string[] args)
-        {
-            switch (args[0].ToLower())
-            {
-                case "import":
-                    var importCommand = new CurrencyImportCommand();
-                    var response = await _mediator.Send(importCommand, new CancellationToken());
+                case "exchange-rate":
+                    var  exchangeRateCli = (serviceProvider.GetService<ExchangeRateTableCli>());
+                    await exchangeRateCli?.DispatchAction(args.Skip(1).ToArray())!;
+                    
                     break;
             }
         }
     }
-    
 }

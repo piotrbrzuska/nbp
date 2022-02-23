@@ -20,8 +20,12 @@ namespace nbp.core
             services.AddScoped( x => new ExchangeRatesTablesClient(NBP_API_URL));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ICurrenciesRepository, CurrenciesRepository>();
+            services.AddScoped<IExchangeRatesTablesRepository, ExchangeRatesTablesRepository>();
+            services.AddScoped<IExchangeRatesTablesWithRatesRepository, ExchangeRatesTablesWithRatesRepository>();
             services.AddScoped<ApiToDatabaseCurrenciesBridge>();
+            services.AddScoped<ApiToDatabaseExchangeRatesTablesBridge>();
             services.AddScoped<IRequestHandler<CurrencyImportCommand, int>, CurrencyImportCommandHandler>();
+            services.AddScoped<IRequestHandler<ExchangeRatesTablesImportCommand, int>, ExchangeRatesTablesImportCommandHandler>();
             
 
         }

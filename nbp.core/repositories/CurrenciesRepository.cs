@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using nbp.core.dto;
+using nbp.core.models;
 
 namespace nbp.core.repositories
 {

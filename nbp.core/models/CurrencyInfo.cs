@@ -1,4 +1,4 @@
-﻿namespace nbp.core.dto
+﻿namespace nbp.core.models
 {
     public class CurrencyInfo
     {
