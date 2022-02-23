@@ -9,5 +9,6 @@ namespace nbp.core.commands
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Currency { get; set; }
+        public bool? Last { get; set; }
     }
 }

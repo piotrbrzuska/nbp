@@ -11,4 +11,4 @@
 9. **DONE** Creating ExchangeRatesTablesRepository
 10. **DONE** Creating ApiToDatabaseExchangeRatesTablesBridge
 11. **DONE** WebApi, ExchangeRatesController, ExchangeRateTableRequestCommand and Handler
-12. Frontend
+12. **DONE** Frontend

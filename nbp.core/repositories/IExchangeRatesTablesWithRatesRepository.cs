@@ -11,5 +11,7 @@ namespace nbp.core.repositories
         Task<IEnumerable<ExchangeRateTable>> Get(DateTime startDate, DateTime endDate, CancellationToken ct);
         Task<IEnumerable<ExchangeRateTable>> Get(string currencyCode, DateTime startDate, DateTime endDate, CancellationToken ct);
         Task<IEnumerable<ExchangeRateTable>> Get(string currencyCode, DateTime date, CancellationToken ct);
+        Task<IEnumerable<ExchangeRateTable>> GetLast(CancellationToken ct);
+        Task<IEnumerable<ExchangeRateTable>> GetLast(string currencyCode, CancellationToken ct);
     }
 }

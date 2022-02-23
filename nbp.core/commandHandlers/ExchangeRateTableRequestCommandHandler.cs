@@ -18,6 +18,10 @@ namespace nbp.core.commandHandlers
         }
         public async Task<ExchangeRateTable[]> Handle(ExchangeRateTableRequestCommand request, CancellationToken cancellationToken)
         {
+            if (request.Last.HasValue && request.Last.Value)
+            {
+                return (await _repository.GetLast(cancellationToken)).ToArray();
+            }
             if (!string.IsNullOrWhiteSpace(request.Currency))
             {
                 if (request.Date.HasValue)

@@ -41,6 +41,17 @@ namespace nbp.Controllers
 
             return exchangeRates;
         }
+        
+        [HttpGet]
+        [Route("last")]
+        public async Task<IEnumerable<ExchangeRateTable>> GetLast(CancellationToken ct)
+        {
+            var requestCommand = new ExchangeRateTableRequestCommand(){Last = true};
+            var exchangeRates = await _mediator.Send(requestCommand, ct);
+
+            return exchangeRates;
+        }
+        
         [HttpGet]
         [Route("date/{date}")]
         public async Task<IEnumerable<ExchangeRateTable>> GetDate(DateTime date, CancellationToken ct)
