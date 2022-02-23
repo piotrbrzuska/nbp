@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nbp.core", "nbp.core\nbp.core.csproj", "{C794D34E-F912-45BF-B47D-C598827BE9D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nbp.cli", "nbp.cli\nbp.cli.csproj", "{3E1C08E5-4BBD-4E87-A031-36C8936E0C83}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nbp.tests", "nbp.tests\nbp.tests.csproj", "{E78BAE79-E64D-4F27-BEF4-5AD0D77608F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nbp.api.client", "nbp.api.client\nbp.api.client.csproj", "{06326604-B819-4638-B77F-F1A3BAC468B1}"
@@ -31,6 +33,10 @@ Global
 		{C794D34E-F912-45BF-B47D-C598827BE9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C794D34E-F912-45BF-B47D-C598827BE9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C794D34E-F912-45BF-B47D-C598827BE9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1C08E5-4BBD-4E87-A031-36C8936E0C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1C08E5-4BBD-4E87-A031-36C8936E0C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1C08E5-4BBD-4E87-A031-36C8936E0C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1C08E5-4BBD-4E87-A031-36C8936E0C83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E78BAE79-E64D-4F27-BEF4-5AD0D77608F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E78BAE79-E64D-4F27-BEF4-5AD0D77608F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E78BAE79-E64D-4F27-BEF4-5AD0D77608F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
