@@ -12,3 +12,4 @@
 10. **DONE** Creating ApiToDatabaseExchangeRatesTablesBridge
 11. **DONE** WebApi, ExchangeRatesController, ExchangeRateTableRequestCommand and Handler
 12. **DONE** Frontend
+13. **DONE** Get Data from API if no exists in DB
