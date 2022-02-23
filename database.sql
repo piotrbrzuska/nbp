@@ -1,0 +1,109 @@
+/****** Object:  Table [dbo].[__EFMigrationsHistory]    Script Date: 23.02.2022 23:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[__EFMigrationsHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Currencies]    Script Date: 23.02.2022 23:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Currencies](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Currency] [nvarchar](100) NOT NULL,
+	[Code] [varchar](3) NOT NULL,
+ CONSTRAINT [PK_Currencies] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ExchangeRate]    Script Date: 23.02.2022 23:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ExchangeRate](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CurrencyId] [int] NOT NULL,
+	[TableId] [int] NOT NULL,
+	[Mid] [float] NOT NULL,
+	[Bid] [float] NOT NULL,
+	[Ask] [float] NOT NULL,
+ CONSTRAINT [PK_ExchangeRate] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ExchangeTables]    Script Date: 23.02.2022 23:51:02 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ExchangeTables](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Table] [varchar](1) NOT NULL,
+	[No] [varchar](16) NOT NULL,
+	[EffectiveDate] [datetime2](7) NOT NULL,
+ CONSTRAINT [PK_ExchangeTables] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_Currencies_Code]    Script Date: 23.02.2022 23:51:02 ******/
+CREATE NONCLUSTERED INDEX [IX_Currencies_Code] ON [dbo].[Currencies]
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_ExchangeRate_CurrencyId]    Script Date: 23.02.2022 23:51:02 ******/
+CREATE NONCLUSTERED INDEX [IX_ExchangeRate_CurrencyId] ON [dbo].[ExchangeRate]
+(
+	[CurrencyId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_ExchangeRate_TableId]    Script Date: 23.02.2022 23:51:02 ******/
+CREATE NONCLUSTERED INDEX [IX_ExchangeRate_TableId] ON [dbo].[ExchangeRate]
+(
+	[TableId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+/****** Object:  Index [IX_ExchangeTables_EffectiveDate]    Script Date: 23.02.2022 23:51:02 ******/
+CREATE NONCLUSTERED INDEX [IX_ExchangeTables_EffectiveDate] ON [dbo].[ExchangeTables]
+(
+	[EffectiveDate] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_ExchangeTables_No]    Script Date: 23.02.2022 23:51:02 ******/
+CREATE NONCLUSTERED INDEX [IX_ExchangeTables_No] ON [dbo].[ExchangeTables]
+(
+	[No] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[ExchangeRate]  WITH CHECK ADD  CONSTRAINT [FK_ExchangeRate_Currencies_CurrencyId] FOREIGN KEY([CurrencyId])
+REFERENCES [dbo].[Currencies] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[ExchangeRate] CHECK CONSTRAINT [FK_ExchangeRate_Currencies_CurrencyId]
+GO
+ALTER TABLE [dbo].[ExchangeRate]  WITH CHECK ADD  CONSTRAINT [FK_ExchangeRate_ExchangeTables_TableId] FOREIGN KEY([TableId])
+REFERENCES [dbo].[ExchangeTables] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[ExchangeRate] CHECK CONSTRAINT [FK_ExchangeRate_ExchangeTables_TableId]
+GO
