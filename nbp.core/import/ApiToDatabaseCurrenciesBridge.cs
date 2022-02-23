@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using nbp.api.client;
@@ -23,10 +24,12 @@ namespace nbp.core
         public async Task<int> Import(CancellationToken ct = new CancellationToken())
         {
             var apiModels = await _apiClient.FetchCurrenciesInfo();
+            var currentModels = (await _repository.Get(ct)).ToArray();
             var models = _mapper.Map<CurrencyInfo[]>(apiModels);
-            if (await _repository.Register(models, ct))
+            var modelsToImport = models.Except(currentModels, new CurrencyInfoEqualityComparerByCode()).ToArray();
+            if (modelsToImport.Length > 0 && await _repository.Register(modelsToImport, ct))
             {
-                return models.Length;
+                return modelsToImport.Length;
             };
             return 0;
         }
