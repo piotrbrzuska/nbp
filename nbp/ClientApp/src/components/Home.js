@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import moment from 'moment'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Calendar } from 'primereact/calendar';
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -16,20 +18,39 @@ export class Home extends Component {
         };
     }
     componentDidMount() {
-        this.fetchExchangeRates();
+        this.fetchExchangeRatesLast();
     }
     
-    async fetchExchangeRates() {
+    async fetchExchangeRatesLast() {
         const response = await fetch('/rates/last');
         const data = await response.json();
-        const rates = data[0].rates.map( x=> { return {value: x.mid, currency: x.currency.currency, code: x.currency.code}});
-        this.setState({ rates: rates, rateDate: new Date(data[0].effectiveDate) ,loading: false });
+        if (data && data.length){
+            const rates = data[0].rates.map( x=> { return {value: x.mid, currency: x.currency.currency, code: x.currency.code}});
+            this.setState({ rates: rates, rateDate: new Date(data[0].effectiveDate) ,loading: false });
+        }
+        else {
+            this.setState({ rates: [], rateDate: new Date() ,loading: false });
+        }
+    }
+    async fetchExchangeRatesDate(date) {
+        const formattedDate = moment(date).format('YYYY-MM-DD')
+        const response = await fetch('/rates/date/' + formattedDate);
+        const data = await response.json();
+        if (data && data.length){
+            const rates = data[0].rates.map( x=> { return {value: x.mid, currency: x.currency.currency, code: x.currency.code}});
+            this.setState({ rates: rates, rateDate: new Date(data[0].effectiveDate) ,loading: false });
+        }
+        else {
+            this.setState({ rates: [], rateDate: date ,loading: false });
+        }
+    }
+    changeDate(date){
+        this.fetchExchangeRatesDate(date);
     }
     renderHeader() {
-        const formattedDate = this.state.rateDate && this.state.rateDate.toLocaleDateString() || "";
         return (
             <div className="flex justify-content-between align-items-center">
-                <h5 className="m-0">Exchange rate results of {formattedDate}</h5>
+                <h5 className="m-0">Exchange rate results of <Calendar value={this.state.rateDate} onChange={(e) => this.changeDate(e.value)}></Calendar></h5>
             </div>
         )
     }
